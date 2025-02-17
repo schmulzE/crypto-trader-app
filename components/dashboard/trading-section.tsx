@@ -107,8 +107,7 @@ const TradingSection: React.FC<TradingSectionProps> = ({memeCoins}) => {
         timestamp: new Date().toLocaleString(),
       };
       setTradeHistory([...tradeHistory, { ...trade, coin: trade.coin! }]);
-    
-      console.log('Holding sold:', holding.name);
+
     };
 
 
@@ -258,7 +257,7 @@ const TradingSection: React.FC<TradingSectionProps> = ({memeCoins}) => {
     };
 
   return (
-    <div className="bg-white rounded-lg space-y-4 mx-2 md:mx-0">
+    <div className="bg-white rounded-lg space-y-4 max-w-lg mx-2 md:mx-0">
       <TradeWidget
         amount={amount}
         usdValue={usdValue}

@@ -5,16 +5,16 @@ import { useState } from "react"
 import AuthModal from "./auth-modal"
 import { Button } from "../ui/button"
 import { useAuth, UserButton,useUser } from "@clerk/nextjs"
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+// import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { TwitterLogoIcon, GitHubLogoIcon, PersonIcon, HamburgerMenuIcon, Cross1Icon } from "@radix-ui/react-icons"
 
 export default function Navbar() {
-  const { user } = useUser()
   const { isSignedIn } = useAuth()
+  const { user } = useUser()
   const [isSignInOpen, setIsSignInOpen] = useState(false)
   const [isSignUpOpen, setIsSignUpOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  
+
   // Function to get user initials from full name
   const getUserInitials = () => {
     if (!user?.fullName) return "?"
@@ -46,14 +46,7 @@ export default function Navbar() {
         </div>
         {isSignedIn ? (
           <>
-            <Link 
-              href="/dashboard" 
-              className="text-lg"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Dashboard
-            </Link>
-            <UserButton afterSignOutUrl="/" />
+            <UserButton />
           </>
         ) : (
           <div className="flex flex-col gap-4 w-full px-4">
@@ -83,7 +76,7 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white text-gray-900 p-4">
-      <div className="container mx-auto flex justify-between items-center">
+      <div className="flex justify-between items-center mx-auto">
         <Link href="/" className="text-xl font-bold font-roboto">
           MemeCoin Trader
         </Link>
@@ -98,26 +91,34 @@ export default function Navbar() {
           <HamburgerMenuIcon className="w-8 h-8" />
         </Button>
 
-        <div className="hidden md:flex items-center gap-x-4">
+        <div className="hidden md:flex items-center">
           <div className="inline-flex gap-x-4 items-center">
             <TwitterLogoIcon className='w-5 h-5' />
             <GitHubLogoIcon className='w-5 h-5' />
           </div>
           {isSignedIn ? (
             <>
-              <UserButton afterSignOutUrl="/" />
+              <UserButton />
             </>
           ) : (
             <>
               <Button
                 onClick={() => setIsSignInOpen(true)}
-                className="bg-gray-900 hover:bg-gray-700 text-white px-4 py-2 rounded mr-2"
+                className="bg-gray-900 hover:bg-gray-700 text-white px-4 py-2 rounded item-end ml-4"
               >
                 Sign In
               </Button>
+              {/* <Button
+                onClick={() => setIsSignUpOpen(true)}
+                className="bg-gray-900 hover:bg-gray-700 text-white px-4 py-2 rounded mr-2"
+              >
+                Get Started 
+              </Button> */}
             </>
           )}
-          {isSignedIn ? (
+
+          <UserButton/>
+          {/* {isSignedIn && isLoaded && isSignedIn ? (
             <Avatar>
               <AvatarImage src={user?.imageUrl} />
               <AvatarFallback>{getUserInitials()}</AvatarFallback>
@@ -129,7 +130,7 @@ export default function Navbar() {
                 <PersonIcon className="w-5 h-5" />
               </AvatarFallback>
             </Avatar>
-          )}
+          )} */}
         </div>
       </div>
 

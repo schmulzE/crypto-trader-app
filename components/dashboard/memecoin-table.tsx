@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { TrendingDown, TrendingUp } from 'lucide-react';
-import { LineChart, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Line } from 'recharts';
+import { LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Line } from 'recharts';
 
 interface Memecoin {
   id: number;
@@ -61,7 +61,7 @@ const MemecoinTable: React.FC<MemecoinTableProps> = ({ memeCoins }) => {
   return (
     <div className="p-4 border rounded">
       <h1 className="text-2xl font-bold mb-4">Coin Rankings</h1>
-      <div className="overflow-x-auto overflow-y-auto h-64 md:h-full">
+      <div className="overflow-x-auto h-full">
       <table className="min-w-full bg-white border-gray-200">
         <thead>
         <tr className="bg-gray-50 text-md">
@@ -80,19 +80,23 @@ const MemecoinTable: React.FC<MemecoinTableProps> = ({ memeCoins }) => {
           onClick={() => handleCoinClick(coin)} 
           >
           <td className="py-2 px-4 border-b text-center">{coin.market_cap_rank}</td>
-          <td className="py-2 px-4 border-b flex items-center gap-2">
-            <img src={coin.image} alt={coin.name} className="w-6 h-6" />
-            <span className='text-semibold'>{coin.name}</span>
-            <span className='text-gray-400 uppercase'>({coin.symbol})</span>
+          <td className="py-2 px-4 border-b">
+            <div className="flex justify-start content-center items-center gap-2">
+              <img src={coin.image} alt={coin.name} className="w-6 h-6" />
+              <span className='text-semibold'>{coin.name}</span>
+              <span className='text-gray-400 uppercase'>({coin.symbol})</span>
+            </div>
           </td>
           <td className="py-2 px-4 border-b text-right">
             ${coin.current_price.toLocaleString()}
           </td>
-          <td className={`py-2 px-4 border-b text-right flex gap-x-2 justify-center content-end ${
+          <td className={`py-2 px-4 border-b text-right ${
             coin.price_change_percentage_24h >= 0 ? 'text-green-500' : 'text-red-500'
           }`}>
-            { coin.price_change_percentage_24h >= 0 ? <TrendingUp className='w-4 h-4' /> : <TrendingDown className='w-4 h-4'/> }
-            {coin.price_change_percentage_24h.toFixed(2)}%
+            <div className='flex gap-x-2 justify-end content-center'>
+              { coin.price_change_percentage_24h >= 0 ? <TrendingUp className='w-4 h-4' /> : <TrendingDown className='w-4 h-4'/> }
+              { coin.price_change_percentage_24h.toFixed(2)}%
+            </div>
           </td>
           <td className="py-2 px-4 border-b text-right">
             ${coin.market_cap.toLocaleString()}
@@ -114,7 +118,7 @@ const MemecoinTable: React.FC<MemecoinTableProps> = ({ memeCoins }) => {
             dataKey="time"
             stroke="#CBD5E0"
             tick={{ fill: '#CBD5E0', fontSize: 12 }}
-            interval={0}
+            interval={window.innerWidth < 768 ? 3 : 0} // Show 4 labels in mobile view
             tickFormatter={(time) => {
             const date = new Date();
             date.setDate(date.getDate() - (15 - time));
@@ -148,7 +152,7 @@ const MemecoinTable: React.FC<MemecoinTableProps> = ({ memeCoins }) => {
             }}
             />
             <Line
-            // type="monotone"
+            type="step"
             dataKey="price"
             connectNulls={false}
             stroke="#63B3ED"
