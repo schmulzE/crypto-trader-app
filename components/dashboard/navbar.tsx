@@ -38,7 +38,7 @@ export default function Navbar() {
           className="text-xl font-bold"
           onClick={() => setIsMobileMenuOpen(false)}
         >
-          MemeCoin Trader
+          CoinTrader
         </Link>
         <div className="flex gap-4">
           <TwitterLogoIcon className="w-6 h-6" />
@@ -78,7 +78,7 @@ export default function Navbar() {
     <nav className="bg-white text-gray-900 p-4">
       <div className="flex justify-between items-center mx-auto">
         <Link href="/" className="text-xl font-bold font-roboto">
-          MemeCoin Trader
+          CoinTrader
         </Link>
 
          {/* Mobile menu button */}
